@@ -1,10 +1,13 @@
 package com.mjtoolbox.newdvdrental.actor;
 
+import com.mjtoolbox.newdvdrental.film.Film;
 import org.hibernate.annotations.CreationTimestamp;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name="actor", schema ="public")
@@ -24,6 +27,17 @@ public class Actor {
     @CreationTimestamp
     @Column(name="last_update")
     private Date lastUpdated;
+
+    // Films that Actor played (Actor is inverse side
+    @ManyToMany(fetch = FetchType.LAZY,
+        cascade = {
+                CascadeType.PERSIST,
+                CascadeType.MERGE
+        },
+            mappedBy = "actors"
+    )
+    private Set<Film> films = new HashSet<>();
+
 
     public long getActorId() {
         return actorId;
@@ -55,6 +69,14 @@ public class Actor {
 
     public void setLastUpdated(Date lastUpdated) {
         this.lastUpdated = lastUpdated;
+    }
+
+    public Set<Film> getFilms() {
+        return films;
+    }
+
+    public void setFilms(Set<Film> films) {
+        this.films = films;
     }
 
     @Override
