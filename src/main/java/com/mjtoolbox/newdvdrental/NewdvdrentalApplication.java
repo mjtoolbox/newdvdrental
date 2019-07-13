@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.Resource;
 
 @SpringBootApplication
-public class NewdvdrentalApplication //implements CommandLineRunner {
+public class NewdvdrentalApplication {//implements CommandLineRunner {
 
 	@Resource
 	private ActorRespository actorRespository;
