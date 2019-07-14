@@ -1,5 +1,6 @@
 package com.mjtoolbox.newdvdrental.language;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mjtoolbox.newdvdrental.film.Film;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -25,7 +26,8 @@ public class Language {
     @Column(name="last_update")
     private Date last_update;
 
-    @OneToMany(mappedBy = "language", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "language", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private Set<Film> films = new HashSet<>();
 
     public long getLanguage_id() {
