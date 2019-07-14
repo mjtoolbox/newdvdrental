@@ -1,17 +1,21 @@
 package com.mjtoolbox.newdvdrental.film;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mjtoolbox.newdvdrental.actor.Actor;
+import com.mjtoolbox.newdvdrental.language.Language;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
 @Table(name="film", schema = "public")
 public class Film {
-
 
     @Id
     @Column(name="film_id")
@@ -43,18 +47,24 @@ public class Film {
     @Column(name="last_update")
     private Date last_update;
 
-    @Column(name="language_id")
-    private long language_id;
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name="language_id", nullable = false)
+    @OnDelete(action= OnDeleteAction.NO_ACTION)
+    @JsonIgnore
+    private Language language;
 
+    @Column(name="language_id", insertable = false, updatable = false)
+    private long language_id;
 
     // All actors for the Film (Film is the owner)
     @ManyToMany(fetch = FetchType.LAZY,
-        cascade = { CascadeType.PERSIST,
-                    CascadeType.MERGE})
+        cascade = { CascadeType.ALL
+    })
     @JoinTable(name="film_actor",
         joinColumns = {@JoinColumn(name="film_id")},
         inverseJoinColumns = {@JoinColumn(name="actor_id")}
     )
+    @JsonIgnore
     private Set<Actor> actors = new HashSet<>();
 
     public long getFilm_id() {
@@ -121,7 +131,13 @@ public class Film {
         this.replacement_cost = replacement_cost;
     }
 
+    public long getLanguage_id() {
+        return language_id;
+    }
 
+    public void setLanguage_id(long language_id) {
+        this.language_id = language_id;
+    }
 
     public Date getLast_update() {
         return last_update;
@@ -131,20 +147,45 @@ public class Film {
         this.last_update = last_update;
     }
 
-    public long getLanguage_id() {
-        return language_id;
-    }
-
-    public void setLanguage_id(long language_id) {
-        this.language_id = language_id;
-    }
-
     public Set<Actor> getActors() {
         return actors;
     }
 
     public void setActors(Set<Actor> actors) {
         this.actors = actors;
+    }
+
+    public Language getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(Language language) {
+        this.language = language;
+    }
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Film film = (Film) o;
+        return film_id == film.film_id &&
+                release_year == film.release_year &&
+                rental_duration == film.rental_duration &&
+                Double.compare(film.rental_rate, rental_rate) == 0 &&
+                length == film.length &&
+                Double.compare(film.replacement_cost, replacement_cost) == 0 &&
+                language_id == film.language_id &&
+                Objects.equals(title, film.title) &&
+                Objects.equals(description, film.description) &&
+                Objects.equals(last_update, film.last_update) &&
+                Objects.equals(language, film.language) &&
+                Objects.equals(actors, film.actors);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(film_id, title, description, release_year, rental_duration, rental_rate, length, replacement_cost, last_update, language, language_id, actors);
     }
 
     @Override
@@ -159,7 +200,8 @@ public class Film {
                 ", length=" + length +
                 ", replacement_cost=" + replacement_cost +
                 ", last_update=" + last_update +
-                ", language_id=" + language_id +
+//                ", language=" + language +
+//                ", actors=" + actors +
                 '}';
     }
 }

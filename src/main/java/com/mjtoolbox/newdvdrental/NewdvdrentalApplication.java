@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import javax.annotation.Resource;
 
 @SpringBootApplication
-public class NewdvdrentalApplication {//implements CommandLineRunner {
+public class NewdvdrentalApplication implements CommandLineRunner {
 
 	@Resource
 	private ActorRespository actorRespository;
@@ -22,14 +22,14 @@ public class NewdvdrentalApplication {//implements CommandLineRunner {
 		SpringApplication.run(NewdvdrentalApplication.class, args);
 	}
 
-//	@Override
-//	public void run(String... args) throws Exception {
-//
-//		// Create a film
+	@Override
+	public void run(String... args) throws Exception {
+
+		// Create a film
 //		Film film = new Film();
-//		film.setTitle("Gone with the wind");
-//		film.setDescription("A moview about love");
-//		film.setRelease_year(1956);
+//		film.setTitle("Joomanji");
+//		film.setDescription("A strange movie");
+//		film.setRelease_year(2013);
 //		film.setLanguage_id(1);
 //		film.setRental_duration(7);
 //		film.setRental_rate(5.99);
@@ -37,12 +37,12 @@ public class NewdvdrentalApplication {//implements CommandLineRunner {
 //
 //		// Create an actor
 //		Actor actor1 = new Actor();
-//		actor1.setFirstName("Clark");
-//		actor1.setLastName("Cable");
+//		actor1.setFirstName("Jack");
+//		actor1.setLastName("Black");
 //
 //		Actor actor2 = new Actor();
-//		actor2.setFirstName("Vivien");
-//		actor2.setLastName("Leigh");
+//		actor2.setFirstName("Mandy");
+//		actor2.setLastName("Hoe");
 //
 //		// Add actor reference in the film
 //		film.getActors().add(actor1);
@@ -53,7 +53,7 @@ public class NewdvdrentalApplication {//implements CommandLineRunner {
 //		actor2.getFilms().add(film);
 //
 //		filmRepository.save(film);
-//
-//	}
+
+	}
 
 }

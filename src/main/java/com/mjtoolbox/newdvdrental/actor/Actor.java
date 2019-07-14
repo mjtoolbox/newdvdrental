@@ -1,5 +1,6 @@
 package com.mjtoolbox.newdvdrental.actor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.mjtoolbox.newdvdrental.film.Film;
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -28,14 +29,14 @@ public class Actor {
     @Column(name="last_update")
     private Date lastUpdated;
 
-    // Films that Actor played (Actor is inverse side
+    // Films that Actor played (Actor is inverse side)
     @ManyToMany(fetch = FetchType.LAZY,
         cascade = {
-                CascadeType.PERSIST,
-                CascadeType.MERGE
+                CascadeType.ALL
         },
             mappedBy = "actors"
     )
+    @JsonIgnore
     private Set<Film> films = new HashSet<>();
 
 

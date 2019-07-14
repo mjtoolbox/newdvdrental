@@ -1,5 +1,7 @@
 package com.mjtoolbox.newdvdrental.film;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +28,11 @@ public class FilmController {
         return filmRepository.findById(id)
                 .orElseThrow(()-> new ResourceNotFoundException("Film not found with ID: " + id));
     }
+
+//    @GetMapping("/languages/{language_id}/films")
+//    public Page<Film> getAllFilmsByLanguageId(@PathVariable (value="language_id") long language_id, Pageable pageable){
+//        return filmRepository.findByLanguageId(language_id, pageable);
+//    }
 
     @PostMapping("/films")
     public Film createFilm(@Valid @RequestBody Film film){
