@@ -1,5 +1,7 @@
 package com.mjtoolbox.newdvdrental.film;
 
+import com.mjtoolbox.newdvdrental.language.Language;
+import com.mjtoolbox.newdvdrental.language.LanguageRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.rest.webmvc.ResourceNotFoundException;
@@ -17,6 +19,9 @@ public class FilmController {
     @Resource
     FilmRepository filmRepository;
 
+    @Resource
+    LanguageRepository languageRepository;
+
     @GetMapping("/films")
     public List<Film> retrieveAllFilms(){
         return StreamSupport.stream(filmRepository.findAll().spliterator(),false)
@@ -29,10 +34,11 @@ public class FilmController {
                 .orElseThrow(()-> new ResourceNotFoundException("Film not found with ID: " + id));
     }
 
-//    @GetMapping("/languages/{language_id}/films")
-//    public Page<Film> getAllFilmsByLanguageId(@PathVariable (value="language_id") long language_id, Pageable pageable){
-//        return filmRepository.findByLanguageId(language_id, pageable);
-//    }
+    @GetMapping("/languages/{language_id}/films")
+    public Page<Film> getAllFilmsByLanguageId(@PathVariable (value="language_id") long language_id, Pageable pageable){
+        Language language = languageRepository.findById(language_id).orElseThrow(()-> new ResourceNotFoundException("Language not found by ID: " + language_id));
+        return filmRepository.findByLanguage(language, pageable);
+    }
 
     @PostMapping("/films")
     public Film createFilm(@Valid @RequestBody Film film){
