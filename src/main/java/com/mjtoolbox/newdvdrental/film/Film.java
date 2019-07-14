@@ -20,7 +20,7 @@ public class Film {
     @Id
     @Column(name="film_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long film_id;
+    private long filmId;
 
     @Column(name="title")
     private String title;
@@ -67,12 +67,12 @@ public class Film {
     @JsonIgnore
     private Set<Actor> actors = new HashSet<>();
 
-    public long getFilm_id() {
-        return film_id;
+    public long getFilmId() {
+        return filmId;
     }
 
-    public void setFilm_id(long film_id) {
-        this.film_id = film_id;
+    public void setFilmId(long film_id) {
+        this.filmId = film_id;
     }
 
     public String getTitle() {
@@ -169,7 +169,7 @@ public class Film {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Film film = (Film) o;
-        return film_id == film.film_id &&
+        return filmId == film.filmId &&
                 release_year == film.release_year &&
                 rental_duration == film.rental_duration &&
                 Double.compare(film.rental_rate, rental_rate) == 0 &&
@@ -185,13 +185,13 @@ public class Film {
 
     @Override
     public int hashCode() {
-        return Objects.hash(film_id, title, description, release_year, rental_duration, rental_rate, length, replacement_cost, last_update, language, language_id, actors);
+        return Objects.hash(filmId, title, description, release_year, rental_duration, rental_rate, length, replacement_cost, last_update, language, language_id, actors);
     }
 
     @Override
     public String toString() {
         return "Film{" +
-                "film_id=" + film_id +
+                "film_id=" + filmId +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", release_year=" + release_year +
